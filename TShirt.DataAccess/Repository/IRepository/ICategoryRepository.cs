@@ -12,7 +12,10 @@ namespace TShirt.DataAccess.Repository.IRepository
         // When doing IRepo the Model will be Category, so will get all methods implemented inside the generic repository
         // Here we need to implement method to udpate the Category as it will be specific to each Model
 
-        void Update(Category obj); 
+        void Update(Category obj);
+
+        //To Save updates when we have perform all the changes - Better to put here than in the Repository
+        void Save(); 
 
     }
 }
