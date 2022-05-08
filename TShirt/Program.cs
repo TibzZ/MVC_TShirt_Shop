@@ -3,6 +3,8 @@ using TShirt.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TShirt.DataAccess.Repository.IRepository;
+using TShirt.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServe
     //search in appsettings.json the matching value of the key inside the block of GetConnectionString
     builder.Configuration.GetConnectionString("TibzConnection")
     ));
-
+//Singleton only create one instance, scoped will be with the lifetime of the request,  transient create a new object everytime (e.g each button click)
+// Whenever we request an object of a category repository, it will give us the implementation defined in the category repository
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
