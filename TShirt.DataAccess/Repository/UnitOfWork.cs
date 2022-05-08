@@ -15,7 +15,7 @@ namespace TShirt.DataAccess.Repository
             _db = db;
             Category = new CategoryRepository(_db);
         }
-        public ICategoryRepository Category { get; private set; };
+        public ICategoryRepository Category { get; private set; }
 
         public void Save()
         {

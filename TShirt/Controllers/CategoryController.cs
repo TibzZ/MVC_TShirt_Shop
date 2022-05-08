@@ -8,16 +8,16 @@ namespace TShirt.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _db;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryController(ICategoryRepository db)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _db = db;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> objCategoryList = _db.GetAll();
+            IEnumerable<Category> objCategoryList = _unitOfWork.Category.GetAll();
             return View(objCategoryList);
 
         }
@@ -46,8 +46,8 @@ namespace TShirt.Controllers
             }
             if (ModelState.IsValid)
             {
-                _db.Add(obj);
-                _db.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
                 //Enable one time notification after a specific action - here to ensure it is successful
                 TempData["Success"] = "Category successfully created";
                 // if controller where somewhere else, a second parametre allows to specify this in RedirectToAction
@@ -68,7 +68,7 @@ namespace TShirt.Controllers
                 return NotFound();
             }
             //var categoryFromDb = _db.Categories.Find(id);
-            var categoryFromFirst = _db.GetFirstOrDefault(u => u.Id == id);
+            var categoryFromFirst = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
             //var categoryFromSingle = _db.Categories.SingleOrDefault(u => u.Id == id);
 
             if (categoryFromFirst == null)
@@ -94,8 +94,8 @@ namespace TShirt.Controllers
             }
             if (ModelState.IsValid)
             {
-                _db.Update(obj);
-                _db.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["Success"] = "Category successfully edited";
                 // if controller were somewhere else, a second parametre to "RedirectToAction" allows to specify the exact one
                 return RedirectToAction("Index");
@@ -115,7 +115,7 @@ namespace TShirt.Controllers
             {
                 return NotFound();
             }
-            var categoryFromDb = _db.GetFirstOrDefault(x => x.Id == id);
+            var categoryFromDb = _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -136,15 +136,15 @@ namespace TShirt.Controllers
         public IActionResult DeletePOST(int? id)
         {
             //var obj = _db.Categories.Find(id);
-            var obj = _db.GetFirstOrDefault(x => x.Id == id);
+            var obj = _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
 
             if (obj == null)
             {
                 return NotFound();
             }
 
-            _db.Remove(obj);
-            _db.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
             TempData["Success"] = "Category successfully deleted";
             // if controller were somewhere else, a second parametre to "RedirectToAction" allows to specify the exact one
             return RedirectToAction("Index");
