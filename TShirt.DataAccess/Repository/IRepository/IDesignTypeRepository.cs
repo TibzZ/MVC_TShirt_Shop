@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TShirt.Models;
 
 namespace TShirt.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IDesignTypeRepository : IRepository<DesignType>
     {
-        ICategoryRepository Category { get; }
-        IDesignTypeRepository DesignType { get; }
-        void Save();
+        void Update(DesignType obj); 
 
     }
 }

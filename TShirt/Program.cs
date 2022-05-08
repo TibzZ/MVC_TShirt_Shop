@@ -19,7 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServe
     //search in appsettings.json the matching value of the key inside the block of GetConnectionString
     builder.Configuration.GetConnectionString("TibzConnection")
     ));
-//Singleton only create one instance, scoped will be with the lifetime of the request,  transient create a new object everytime (e.g each button click)
+//Singleton only create one instance, AddScoped will be with the lifetime of the request,  transient create a new object everytime (e.g each button click)
 // Whenever we request an object of a category repository, it will give us the implementation defined in the category repository - changed to UnitOfWork for greater flexibility and not repeating DI for futur new Repository
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); 
 var app = builder.Build();
