@@ -8,19 +8,19 @@ using TShirt.Models;
 
 namespace TShirt.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class DesignTypeRepository : Repository<DesignType>, IDesignTypeRepository
     {
         private ApplicationDbContext _db;
-        public CategoryRepository(ApplicationDbContext db) : base(db)
+
+        public DesignTypeRepository(ApplicationDbContext db) : base(db)
         {
-            _db = db; 
+            _db = db;   
         }
 
-        //Save is now in UnitOfWork
-
-        public void Update(Category obj)
+        public void Update(DesignType obj)
         {
-            _db.Categories.Update(obj);
+            _db.DesignTypes.Update(obj); 
         }
+
     }
 }

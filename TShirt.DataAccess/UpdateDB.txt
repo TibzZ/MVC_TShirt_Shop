@@ -1,6 +1,7 @@
-﻿Go Tool -> NuGet Package Manager -> Open Package Manager Console
-Type: add-migration NameOfMigration
-Type: update-database
+﻿1) Go Tool -> NuGet Package Manager -> Open Package Manager Console - ensure Default Project dropdown at the top is the correct one
+2) Create Model with related attributes
+3) Type: add-migration NameOfMigration
+4) Type: update-database
 
 If the database become corrupted, delete the migration folder all together in the solution and remove the DB in SSMS
 Never remove a specific migration that has already been applied, because it will disturb the pipepine and corrupt all your migrations. The previous is not a solution
