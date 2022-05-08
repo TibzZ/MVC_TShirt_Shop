@@ -14,8 +14,7 @@ namespace TShirt.DataAccess.Repository.IRepository
 
         void Update(Category obj);
 
-        //To Save updates when we have perform all the changes - Better to put here than in the Repository
-        void Save(); 
+        //To Save updates when we have perform all the changes - Better to put here than in the Repository but was now moved to UnitOfWork
 
     }
 }

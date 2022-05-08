@@ -11,16 +11,12 @@ namespace TShirt.DataAccess.Repository
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
         private ApplicationDbContext _db;
-
         public CategoryRepository(ApplicationDbContext db) : base(db)
         {
             _db = db; 
         }
 
-        public void Save()
-        {
-            _db.SaveChanges();
-        }
+        //Save is now in UnitOfWork
 
         public void Update(Category obj)
         {
