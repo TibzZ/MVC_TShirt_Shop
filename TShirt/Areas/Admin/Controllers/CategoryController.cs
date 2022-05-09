@@ -6,6 +6,8 @@ using TShirt.Models;
 
 namespace TShirt.Controllers
 {
+    // Optional with .Net Core 6, but easier to read
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
