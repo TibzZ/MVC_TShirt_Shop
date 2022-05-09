@@ -4,7 +4,7 @@
    
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Update Insert Product</h2>
+            <h2 class="text-primary">Insert Product</h2>
             <hr />
         </div>
         @*<div asp-validation-summary="All"></div>*@
@@ -48,6 +48,22 @@
             <input asp-for="Price100Items" class="form-control" />
             <span asp-validation-for="Price100Items" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="CategoryId" ></label>
+            @*ViewBag.CategoryList not intellisense friendly, will need to match what is in the controller*@
+            <select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="form-select">
+            <option disabled selected>--Select Category--</option></select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DesignTypeId" ></label>
+            @*ViewData doesn't have intellisense too, need explicit type and C# style*@
+            <select asp-for="DesignTypeId" asp-items="@(ViewData["DesignTypeList"] as IEnumerable<SelectListItem>)" class="form-select">
+            <option disabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="DesignTypeId" class="text-danger"></span>
+        </div>
+
         <button type="submit" class="btn btn-primary style="width:150px">Update</button>
         @*We don't have which Action Method it should submit too below - If no name provided, it will use Get, so here Edit Function in the controller as default which post back info. 
         Here we explicitly mention this in asp-action*@

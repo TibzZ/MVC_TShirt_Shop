@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using TShirt.DataAccess;
 using TShirt.DataAccess.Repository.IRepository;
@@ -29,9 +30,28 @@ namespace TShirt.Controllers
         public IActionResult Upsert(int? id)
         {
             Product product = new();
+            // Create dropdowns:
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
+                u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+                });
+            IEnumerable<SelectListItem> DesignTypeList = _unitOfWork.DesignType.GetAll().Select(
+                u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+                });
+
             if (id == null || id == 0)
             {
                 //create product
+                // --- ViewData Vs. ViewBag ---
+                // ViewBag -- can get any name, here .CategoryList and linked to related value - Wrapper for ViewData
+                ViewBag.CategoryList = CategoryList;  //create ViewBag to pass data to the controller
+                // ViewData -- Different syntax, need the related type in View
+                ViewData["DesignTypeList"] = DesignTypeList;
                 return View(product);
             }
             else
