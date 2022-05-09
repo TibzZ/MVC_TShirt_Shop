@@ -16,5 +16,6 @@ namespace TShirt.DataAccess;
         // Code first
         public DbSet<Category> Categories { get; set; }
         public DbSet<DesignType> DesignTypes { get; set; }
+        public DbSet<Product> Products { get; set; }
 
-    }
+}
