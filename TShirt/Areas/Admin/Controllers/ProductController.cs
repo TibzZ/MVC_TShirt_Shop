@@ -68,11 +68,11 @@ namespace TShirt.Controllers
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(DesignType obj)
+        public IActionResult Upsert(ProductViewModel obj, IFormFile file)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.DesignType.Update(obj);
+                //_unitOfWork.DesignType.Update(obj);
                 _unitOfWork.Save();
                 TempData["Success"] = "Design successfully edited";
                 // if controller were somewhere else, a second parametre to "RedirectToAction" allows to specify the exact one
