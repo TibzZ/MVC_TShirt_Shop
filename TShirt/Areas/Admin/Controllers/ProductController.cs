@@ -4,6 +4,7 @@ using System.IO;
 using TShirt.DataAccess;
 using TShirt.DataAccess.Repository.IRepository;
 using TShirt.Models;
+using TShirt.Models.ViewModels;
 
 namespace TShirt.Controllers
 {
@@ -29,37 +30,39 @@ namespace TShirt.Controllers
         // Get - Update Insert
         public IActionResult Upsert(int? id)
         {
-            Product product = new();
-            // Create dropdowns:
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
-                u => new SelectListItem
+            // That way the View will be tightly binded and no need to ViewBag/Data
+            // If later we need to add 10 more properties, we can do it from ProductView Model, to keep the controller light
+            ProductViewModel productVM = new()
+            {
+                Product = new(),
+                CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
                 {
-                    Text = u.Name,
-                    Value = u.Id.ToString(),
-                });
-            IEnumerable<SelectListItem> DesignTypeList = _unitOfWork.DesignType.GetAll().Select(
-                u => new SelectListItem
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+                DesignTypeList = _unitOfWork.DesignType.GetAll().Select(i => new SelectListItem
                 {
-                    Text = u.Name,
-                    Value = u.Id.ToString(),
-                });
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+            };
 
             if (id == null || id == 0)
             {
                 //create product
                 // --- ViewData Vs. ViewBag ---
                 // ViewBag -- can get any name, here .CategoryList and linked to related value - Wrapper for ViewData
-                ViewBag.CategoryList = CategoryList;  //create ViewBag to pass data to the controller
+                /*ViewBag.CategoryList = CategoryList;  //create ViewBag to pass data to the controller*/
                 // ViewData -- Different syntax, need the related type in View
-                ViewData["DesignTypeList"] = DesignTypeList;
-                return View(product);
+                /*ViewData["DesignTypeList"] = DesignTypeList;*/
+                return View(productVM);
             }
             else
             {
                 //update the product
             }
 
-            return View(product);
+            return View(productVM);
         }
 
         //Post
