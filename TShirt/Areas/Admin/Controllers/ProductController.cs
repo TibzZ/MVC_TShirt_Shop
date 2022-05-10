@@ -132,25 +132,6 @@ namespace TShirt.Controllers
         }
 
         
-        //! "ActionName" attribute allows to name a method the same as previous, with similar arguments, it will be differienciated thanks to POST and GET
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(int? id)
-        {
-            //var obj = _db.Categories.Find(id);
-            var obj = _unitOfWork.DesignType.GetFirstOrDefault(x => x.Id == id);
-
-            if (obj == null)
-            {
-                return NotFound();
-            }
-
-            _unitOfWork.DesignType.Remove(obj);
-            _unitOfWork.Save();
-            TempData["Success"] = "Design successfully deleted";
-            // if controller were somewhere else, a second parametre to "RedirectToAction" allows to specify the exact one
-            return RedirectToAction("Index");
-        }
     
         #region API CALLS
         [HttpGet]
@@ -160,6 +141,32 @@ namespace TShirt.Controllers
             var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,DesignType");
                 return Json(new { data = productList });
         }
+
+
+        //! "ActionName" attribute allows to name a method the same as previous, with similar arguments, it will be differienciated thanks to POST and GET
+        [HttpDelete]
+        public IActionResult DeletePOST(int? id)
+        {
+            //var obj = _db.Categories.Find(id);
+            var obj = _unitOfWork.Product.GetFirstOrDefault(x => x.Id == id);
+
+            if (obj == null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
+
+            var oldImagepath = Path.Combine(_hostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagepath))
+            {
+                System.IO.File.Delete(oldImagepath);
+            }
+
+            _unitOfWork.Product.Remove(obj);
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "Delete successful" });
+        }
+
         #endregion
    
     }
