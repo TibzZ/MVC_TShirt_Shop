@@ -14,6 +14,7 @@ function loadDataTable() {
             { "data": "productId", "width": "15%" },
             { "data": "mainPrice", "width": "15%" },
             { "data": "designer", "width": "15%" },
+            { "data": "category.name", "width": "15%" },
 
         ]
     });

@@ -139,7 +139,8 @@ namespace TShirt.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var productList = _unitOfWork.Product.GetAll();
+            // Properties are case sensitive
+            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,DesignType");
                 return Json(new { data = productList });
         }
         #endregion
