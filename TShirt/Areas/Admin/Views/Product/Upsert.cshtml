@@ -2,73 +2,77 @@
 
 @*Enable file upload by using: enctype="multipart/form-data"*@
 <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-   
-    <div class="border p-3 mt-4 row">
-        <div class="row pb-2">
-            <h2 class="text-primary">@(Model.Product.Id != 0 ? "Update":"Create") Product</h2>
-            <hr />
-        </div>
-        @*<div asp-validation-summary="All"></div>*@
-        <div class="mb-3">
-            <label asp-for="Product.TshirtTitle" ></label>
-            <input asp-for="Product.TshirtTitle" class="form-control" />
-            <span asp-validation-for="Product.TshirtTitle" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Product.Description" ></label>
-            <textarea asp-for="Product.Description" rows="3" class="form-control"></textarea>
-            <span asp-validation-for="Product.Description" class="text-danger"></span>
-        </div>
-        <div class="mb-3 col-6">
-            <label asp-for="Product.ProductId" ></label>
-            <input asp-for="Product.ProductId" class="form-control" />
-            <span asp-validation-for="Product.ProductId" class="text-danger"></span>
-        </div>
-        <div class="mb-3 col-6">
-            <label asp-for="Product.Designer" ></label>
-            <input asp-for="Product.Designer" class="form-control" />
-            <span asp-validation-for="Product.Designer" class="text-danger"></span>
-        </div>
-        <div class="mb-3 col-6">
-            <label asp-for="Product.ListPrice" ></label>
-            <input asp-for="Product.ListPrice" class="form-control" />
-            <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
-        </div>
-        <div class="mb-3 col-6">
-            <label asp-for="Product.MainPrice" ></label>
-            <input asp-for="Product.MainPrice" class="form-control" />
-            <span asp-validation-for="Product.MainPrice" class="text-danger"></span>
-        </div>
-        <div class="mb-3 col-6">
-            <label asp-for="Product.Price50Items" ></label>
-            <input asp-for="Product.Price50Items" class="form-control" />
-            <span asp-validation-for="Product.Price50Items" class="text-danger"></span>
-        </div> 
-        <div class="mb-3 col-6">
-            <label asp-for="Product.Price100Items" ></label>
-            <input asp-for="Product.Price100Items" class="form-control" />
-            <span asp-validation-for="Product.Price100Items" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Product.ImageUrl" ></label>
-            <input type="file" id="uploadBox" name="file" class="form-control" />
-        </div>
-        <div class="mb-3 col-6">
-            <label asp-for="Product.CategoryId" ></label>
-            @*ViewBag.CategoryList not intellisense friendly, will need to match what is in the controller
-            <select asp-for="Product.CategoryId" asp-items="ViewBag.CategoryList" class="form-select">*@
-            <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select">
-            <option disabled selected>--Select Category--</option></select>
-            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-        </div>
-        <div class="mb-3 col-6">
-            <label asp-for="Product.DesignTypeId" ></label>
-            @*ViewData doesn't have intellisense too, need explicit type and C# style
-            <select asp-for="Product.DesignTypeId" asp-items="@(ViewData["DesignTypeList"] as IEnumerable<SelectListItem>)" class="form-select">*@
-            <select asp-for="Product.DesignTypeId" asp-items="@Model.DesignTypeList" class="form-select">
-            <option disabled selected>--Select Design Type--</option>
-            </select>
-            <span asp-validation-for="Product.DesignTypeId" class="text-danger"></span>
+    <input asp-for="Product.Id" hidden />
+    <input asp-for="Product.ImageUrl" hidden />
+
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+            <div class="col-12 pb-2">
+                <h2 class="text-primary">@(Model.Product.Id != 0 ? "Update":"Create") Product</h2>
+                <hr />
+            </div>
+            @*<div asp-validation-summary="All"></div>*@
+            <div class="mb-3">
+                <label asp-for="Product.TshirtTitle" ></label>
+                <input asp-for="Product.TshirtTitle" class="form-control" />
+                <span asp-validation-for="Product.TshirtTitle" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Product.Description" ></label>
+                <textarea asp-for="Product.Description" rows="3" class="form-control"></textarea>
+                <span asp-validation-for="Product.Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-6">
+                <label asp-for="Product.ProductId" ></label>
+                <input asp-for="Product.ProductId" class="form-control" />
+                <span asp-validation-for="Product.ProductId" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-6">
+                <label asp-for="Product.Designer" ></label>
+                <input asp-for="Product.Designer" class="form-control" />
+                <span asp-validation-for="Product.Designer" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-6">
+                <label asp-for="Product.ListPrice" ></label>
+                <input asp-for="Product.ListPrice" class="form-control" />
+                <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-6">
+                <label asp-for="Product.MainPrice" ></label>
+                <input asp-for="Product.MainPrice" class="form-control" />
+                <span asp-validation-for="Product.MainPrice" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-6">
+                <label asp-for="Product.Price50Items" ></label>
+                <input asp-for="Product.Price50Items" class="form-control" />
+                <span asp-validation-for="Product.Price50Items" class="text-danger"></span>
+            </div> 
+            <div class="mb-3 col-6">
+                <label asp-for="Product.Price100Items" ></label>
+                <input asp-for="Product.Price100Items" class="form-control" />
+                <span asp-validation-for="Product.Price100Items" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Product.ImageUrl" ></label>
+                <input type="file" id="uploadBox" name="file" class="form-control" />
+            </div>
+            <div class="mb-3 col-6">
+                <label asp-for="Product.CategoryId" ></label>
+                @*ViewBag.CategoryList not intellisense friendly, will need to match what is in the controller
+                <select asp-for="Product.CategoryId" asp-items="ViewBag.CategoryList" class="form-select">*@
+                <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select">
+                <option disabled selected>--Select Category--</option></select>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-6">
+                <label asp-for="Product.DesignTypeId" ></label>
+                @*ViewData doesn't have intellisense too, need explicit type and C# style
+                <select asp-for="Product.DesignTypeId" asp-items="@(ViewData["DesignTypeList"] as IEnumerable<SelectListItem>)" class="form-select">*@
+                <select asp-for="Product.DesignTypeId" asp-items="@Model.DesignTypeList" class="form-select">
+                <option disabled selected>--Select Design Type--</option>
+                </select>
+                <span asp-validation-for="Product.DesignTypeId" class="text-danger"></span>
         </div>
         
         <div class="col-12">
@@ -82,6 +86,13 @@
         <a asp-controller="DesignType" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
         </div>
     </div>
+        </div>
+        <div class="col-2 pt-4">
+            <img src="@Model.Product.ImageUrl" width="100" style="border-radius:5px; border:1px solid #bbb9b9" />
+        </div>
+    </div>
+
+
 </form>
 
 @section Scripts {
