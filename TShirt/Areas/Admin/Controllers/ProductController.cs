@@ -24,9 +24,7 @@ namespace TShirt.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> objDesignTypeList = _unitOfWork.Product.GetAll();
-            return View(objDesignTypeList);
-
+            return View();
         }
 
         
@@ -136,6 +134,15 @@ namespace TShirt.Controllers
             // if controller were somewhere else, a second parametre to "RedirectToAction" allows to specify the exact one
             return RedirectToAction("Index");
         }
+    
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.GetAll();
+                return Json(new { data = productList });
+        }
+        #endregion
+   
     }
-
 }
