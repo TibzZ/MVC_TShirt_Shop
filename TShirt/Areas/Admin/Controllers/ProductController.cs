@@ -113,24 +113,6 @@ namespace TShirt.Controllers
                 }
             return View(obj);
         }
-
-
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var designTypeFromDb = _unitOfWork.DesignType.GetFirstOrDefault(x => x.Id == id);
-
-            if (designTypeFromDb == null)
-            {
-                return NotFound();
-            }
-
-            return View(designTypeFromDb);
-        }
-
         
     
         #region API CALLS
@@ -142,14 +124,13 @@ namespace TShirt.Controllers
                 return Json(new { data = productList });
         }
 
-
+        //POST
         //! "ActionName" attribute allows to name a method the same as previous, with similar arguments, it will be differienciated thanks to POST and GET
         [HttpDelete]
-        public IActionResult DeletePOST(int? id)
+        public IActionResult Delete(int? id)
         {
             //var obj = _db.Categories.Find(id);
             var obj = _unitOfWork.Product.GetFirstOrDefault(x => x.Id == id);
-
             if (obj == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
