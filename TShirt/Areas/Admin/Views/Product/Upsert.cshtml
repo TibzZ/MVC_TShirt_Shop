@@ -51,7 +51,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="Product.ImageUrl" ></label>
-            <input type="file" id="uploadBox" class="form-control" />
+            <input type="file" id="uploadBox" name="file" class="form-control" />
         </div>
         <div class="mb-3 col-6">
             <label asp-for="Product.CategoryId" ></label>
@@ -75,7 +75,7 @@
         @if(Model.Product.Id != 0){
             <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
         } else {
-            <button type="submit" onclick="ValidateInput();" class="btn btn-primary" style="width:150px">Create</button>
+            <button type="submit" onclick="return ValidateInput()" class="btn btn-primary" style="width:150px">Create</button>
         }
         @*We don't have which Action Method it should submit too below - If no name provided, it will use Get, so here Edit Function in the controller as default which post back info. 
         Here we explicitly mention this in asp-action*@
@@ -88,7 +88,7 @@
     @{
         <partial name="_ValidationScriptsPartial" />
      }
-     <script>
+     <script type="text/javascript">
         function ValidateInput(){
             if(document.getElementById("uploadBox").value==""){
                 Swal.fire({

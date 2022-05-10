@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,15 +31,18 @@ namespace TShirt.Models
         [Required]
         [Range(1, 10000)]
         public double Price100Items { get; set; }
+        [ValidateNever]
         public string ImageUrl { get; set; }
         //The following will create a foreign Key relation for EF core:
         [Required]
         public int CategoryId { get; set; } // Same name as category with Id, it will automatically make CategoryId a foreign key
         [ForeignKey("CategoryId")] //Not required unless name is not straightforward
+        [ValidateNever]
         public Category Category { get; set; }      //EF knows this is a navigation property to the category class
 
         [Required]
         public int DesignTypeId { get; set; }
+        [ValidateNever]
         public DesignType DesignType { get; set; } 
 
     }

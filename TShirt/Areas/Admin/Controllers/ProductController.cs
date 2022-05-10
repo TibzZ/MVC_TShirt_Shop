@@ -13,10 +13,13 @@ namespace TShirt.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        // for saving pictures locally
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
 
         public IActionResult Index()
@@ -68,13 +71,28 @@ namespace TShirt.Controllers
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(ProductViewModel obj, IFormFile file)
+        public IActionResult Upsert(ProductViewModel obj, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
-                //_unitOfWork.DesignType.Update(obj);
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if(file != null)
+                {
+                    // In production we don't want to risk a user can upload two files with the same name, so renamed on upload
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\products");
+                    var extension = Path.GetExtension(file.FileName);
+
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    obj.Product.ImageUrl = @"\images\products\" + fileName + extension;
+                }
+                
+                _unitOfWork.Product.Add(obj.Product);
                 _unitOfWork.Save();
-                TempData["Success"] = "Design successfully edited";
+                TempData["Success"] = "Product created successfully";
                 // if controller were somewhere else, a second parametre to "RedirectToAction" allows to specify the exact one
                 return RedirectToAction("Index");
             }
