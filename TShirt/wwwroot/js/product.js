@@ -57,7 +57,6 @@ function Delete(url) {
                     }
                 }
             })
-            )
         }
     })
 }
