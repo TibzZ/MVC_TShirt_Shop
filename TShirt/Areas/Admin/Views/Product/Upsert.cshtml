@@ -109,17 +109,19 @@
       tinycomments_author: 'Author name',
     });
   </script>
-     <script type="text/javascript">
-        function ValidateInput(){
-            if(document.getElementById("uploadBox").value==""){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please upload an image!',
-                });
-                return false;
-            }
-        return true;
-     </script>
+
+<script>
+		function ValidateInput(){
+			if(document.getElementById("uploadBox").value==""){
+				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  text: 'Please upload an Image!',
+				});
+				return false;
+			}
+			return true;
+		}
+</script>
 }
 

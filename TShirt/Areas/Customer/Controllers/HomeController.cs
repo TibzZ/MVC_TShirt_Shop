@@ -3,6 +3,7 @@ using System.Diagnostics;
 using TShirt.Models;
 using Microsoft.Extensions.Logging;
 using TShirt.DataAccess.Repository.IRepository;
+using TShirt.Models.ViewModels;
 
 namespace TShirt.Controllers
 {
@@ -23,6 +24,18 @@ namespace TShirt.Controllers
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties:"Category,DesignType");
             return View(productList);
         }
+
+        public IActionResult Details(int id)
+        {
+            ShoppingCart cartObj = new()
+            {
+                Count = 1,
+                Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id, includeProperties: "Category,DesignType")
+            };
+
+            return View(cartObj);
+        }
+
 
         public IActionResult Privacy()
         {
