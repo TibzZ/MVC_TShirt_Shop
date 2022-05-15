@@ -1,10 +1,11 @@
 ﻿using TShirt.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TShirt.DataAccess;
 
-    public class ApplicationDbContext : DbContext
-    {
+    public class ApplicationDbContext : IdentityDbContext
+{
         //configure RDB context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
