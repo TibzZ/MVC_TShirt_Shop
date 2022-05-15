@@ -8,22 +8,21 @@ using TShirt.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("TibzConnection");
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();;
-
 // Add services to the container - dependency injection to be done before the builder.Build()
 builder.Services.AddControllersWithViews();
-
-// .AddRazorRuntimeCompilation() only for post .NET 6
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-
 //add connection strings
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(
     //search in appsettings.json the matching value of the key inside the block of GetConnectionString
     builder.Configuration.GetConnectionString("TibzConnection")
     ));
+//doing all the mapping of identidy with EntityFramework
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();;
+
+
+// .AddRazorRuntimeCompilation() only for post .NET 6
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
 //Singleton only create one instance, AddScoped will be with the lifetime of the request,  transient create a new object everytime (e.g each button click)
 // Whenever we request an object of a category repository, it will give us the implementation defined in the category repository - changed to UnitOfWork for greater flexibility and not repeating DI for futur new Repository
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); 
@@ -41,11 +40,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+//middlewear authentification from identity
 app.UseAuthentication();
 
 app.UseAuthorization();
-
+//Enable routing for razor pages: 
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
