@@ -5,8 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TShirt.DataAccess.Repository.IRepository;
 using TShirt.DataAccess.Repository;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("TibzConnection");
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();;
 
 // Add services to the container - dependency injection to be done before the builder.Build()
 builder.Services.AddControllersWithViews();
