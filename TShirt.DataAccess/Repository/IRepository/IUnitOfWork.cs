@@ -11,6 +11,7 @@ namespace TShirt.DataAccess.Repository.IRepository
         ICategoryRepository Category { get; }
         IDesignTypeRepository DesignType { get; }
         IProductRepository Product { get; }
+        ICompanyRepository Company { get; }
         void Save();
 
     }

@@ -16,6 +16,7 @@ namespace TShirt.DataAccess.Repository
             Category = new CategoryRepository(_db);
             DesignType = new DesignTypeRepository(_db);
             Product = new ProductRepository(_db);
+            Company = new CompanyRepository(_db);
         }
         public ICategoryRepository Category { get; private set; }
 
@@ -23,6 +24,7 @@ namespace TShirt.DataAccess.Repository
 
         public IProductRepository Product { get; private set; }
 
+        public ICompanyRepository Company { get; private set; }
 
         public void Save()
         {
