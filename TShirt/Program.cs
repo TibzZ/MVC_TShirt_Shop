@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using TShirt.DataAccess.Repository.IRepository;
 using TShirt.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using TShirt.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container - dependency injection to be done before the builder.Build()
@@ -15,10 +17,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServe
     //search in appsettings.json the matching value of the key inside the block of GetConnectionString
     builder.Configuration.GetConnectionString("TibzConnection")
     ));
-//doing all the mapping of identidy with EntityFramework
-builder.Services.AddDefaultIdentity<IdentityUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();;
-
+//doing all the mapping of identidy with EntityFramework - AddDefaultIdentity doesn't have support for roles so need to change it to AddIdentity
+// and add IdentityRole (use default implementation in Identity class lib)- to customise it add AddDefaultTokenProdiders
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+// implented fake IEmailSender, Singleton is fine as we are sending emails
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 // .AddRazorRuntimeCompilation() only for post .NET 6
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
