@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using TShirt.Models;
 using TShirt.Utility;
 
 namespace TShirt.Areas.Identity.Pages.Account
@@ -101,14 +102,24 @@ namespace TShirt.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            public string Name { get; set; }
+            public string? AddressStreet { get; set; }
+            public string? City { get; set; }
+            public string? State { get; set; }
+            public string? PostalCode { get; set; }
+            public string? PhoneNumber { get; set; }
+
+
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             // GetAwaiter().GetResult(); will call the async method, wait for the results and only then will move for the next line
-            //create 4 roles, everytime the Get Handler is called, it will go to the db and create these rules so have to see if one doesn't exist
-            // as then we will have to create 4 roles for our website
+            // create 4 roles, everytime the Get Handler is called, it will go to the db and create these rules so have to see if one doesn't exist
+            // as then we will have to create 4 roles for our website - only checking it is not true for Role_Admin will cover the logic, could have use any other ones
             if (!_roleManager.RoleExistsAsync(StaticDetails.Role_Admin).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Admin)).GetAwaiter().GetResult();
@@ -131,6 +142,13 @@ namespace TShirt.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.AddressStreet = Input.AddressStreet;
+                user.City = Input.City;
+                user.State = Input.State;
+                user.PostalCode = Input.PostalCode;
+                user.Name = Input.Name;
+                user.PhoneNumber = Input.PhoneNumber;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -169,11 +187,11 @@ namespace TShirt.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private ApplicationUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<ApplicationUser>();
             }
             catch
             {

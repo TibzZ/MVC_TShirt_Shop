@@ -11,6 +11,7 @@ namespace TShirt.Utility
     {
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
+            //fake implementation for now - no email sent
             return Task.CompletedTask;
         }
     }
